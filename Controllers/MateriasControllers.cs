@@ -46,18 +46,18 @@ public class MateriasController : ControllerBase
     //}
 
     [HttpPut("{id}")]
-    public ActionResult<Materia> AtualizarDados(int id, string nome)
+    public ActionResult<Materia> AtualizarDados(int id, Materia materia)
     {
-        var materia = _context.Materias.Find(id);
+        var materiaExistente = _context.Materias.Find(id);
 
-        if(materia is null)
+        if(materiaExistente is null)
         {
             return NotFound();
         }
 
-        materia.Nome = nome;
+        materiaExistente.Nome = materia.Nome;
         _context.SaveChanges();
 
-        return materia;
+        return materiaExistente;
     }
 }
