@@ -60,4 +60,20 @@ public class MateriasController : ControllerBase
 
         return materiaExistente;
     }
+
+    [HttpDelete("{id}")]
+    public ActionResult<Materia> DeletarDatos(int id)
+    {
+        var materia = _context.Materias.Find(id);
+
+        if(materia is null)
+        {
+            return NotFound();
+        }
+
+        _context.Materias.Remove(materia);
+        _context.SaveChanges();
+
+        return materia;
+    }
 }
