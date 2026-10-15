@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using StudyFlow.Api.Data;
+using StudyFlow.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<StudyFlowContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("StudyFlowConnection")));
+
+builder.Services.AddScoped<MateriaService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
