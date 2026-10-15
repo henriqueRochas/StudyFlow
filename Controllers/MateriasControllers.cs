@@ -1,33 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
 using StudyFlow.Api.Models;
-using StudyFlow.Api.Data;
 using StudyFlow.Api.Dtos;
+using StudyFlow.Api.Services;
 
 namespace StudyFlow.Api.Controllers;
 
 [ApiController] // DIZ QUE ESSA CLASSE É UMA API
 [Route("api/[controller]")]
+
 public class MateriasController : ControllerBase
 {
-    private readonly StudyFlowContext _context;
+    private readonly MateriaService _materiaService;
 
-    public MateriasController(StudyFlowContext context)
+    public MateriasController(MateriaService materiaService)
     {
-        _context = context;
+        _materiaService = materiaService;
     }
 
     [HttpGet] // MÉTODO QUE BUSCA OS DADOS SOLICITADOS
     public IEnumerable<Materia> PegarMaterias()
     {
-        return _context.Materias.ToList();
+        return _materiaService.PegarTodas();
     }
 
     [HttpGet("{id}")] // FAZ A BUSCA COM BASE NO ID
     public ActionResult<Materia> PegarMateriasPeloId(int id) // O ActionResult<> FAZ COM QUE SEJA POSSIVEL OBTER A MENSAGEM DE RETORNO DO HTTP.
     {
-        var materia = _context.Materias.Find(id); // O FIND VAI PROCURAR UM ITEM QUE JÁ EXISTE COM BASE NA CHAVE PRIMARIA
+        var materia = _materiaService.PegarPorId(id); // O FIND VAI PROCURAR UM ITEM QUE JÁ EXISTE COM BASE NA CHAVE PRIMARIA
 
-        if(materia is null)
+        if (materia is null)
         {
             return NotFound(); // O NOT FOUND É O TIPO DE RETORNO
         }
@@ -36,52 +37,34 @@ public class MateriasController : ControllerBase
 
     }
 
-    [HttpPost] // MÉTODO QUE AJUDAR A CRIA O DADO
+    [HttpPost] // MÉTODO QUE AJUDA A CRIA O DADO
     public Materia AdicionarMaterias(CriarMateriaDto dto)
     {
-        var nome = dto.Nome.Trim();
-
-        var materia = new Materia // COMO AINDA NÃO HAVIA UMA ENTIDADE, FOI NECESSARIO CRIAR ESSA
-        {
-            Nome = nome,
-        };
-
-        _context.Materias.Add(materia); //PREPARA OS DADOS PARA QUE POSSAM SER SALVO NO BANCO
-        _context.SaveChanges(); // SALVA OS DADOS NO BANCO
-
-        return materia;
+        return _materiaService.Adicionar(dto);
     }
 
     [HttpPut("{id}")] // MÉTODO QUE ATUALIZA OS DADOS
     public ActionResult<Materia> AtualizarDados(int id, AtualizarMateriaDto dto)
     {
-        // NESSE CASO COMO JÁ HAVIA UMA ENTIDADE EXISTENTE, NÃO FOI NECESSARIO CRIAR UMA
+        var materia = _materiaService.Atualizar(id, dto);
 
-        var materiaExistente = _context.Materias.Find(id);
-
-        if(materiaExistente is null)
+        if (materia is null)
         {
             return NotFound();
         }
 
-        materiaExistente.Nome = dto.Nome.Trim(); // PEGA O ITEM QUE JÁ EXISTE E ATUALIZA ELE
-        _context.SaveChanges();
-
-        return materiaExistente;
+        return materia;
     }
 
     [HttpDelete("{id}")] // METODO QUE DELETA ITENS
     public ActionResult<Materia> DeletarDados(int id)
     {
-        var materia = _context.Materias.Find(id);
+        var materia = _materiaService.Deletar(id);
 
-        if(materia is null)
+        if (materia is null)
         {
             return NotFound();
-        }
-
-        _context.Materias.Remove(materia); // REMOVEM O ITEM
-        _context.SaveChanges();
+        } 
 
         return materia;
     }
