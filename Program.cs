@@ -12,6 +12,7 @@ builder.Services.AddDbContext<StudyFlowContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StudyFlowConnection")));
 
 builder.Services.AddScoped<MateriaService>();
+builder.Services.AddScoped<TarefaService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

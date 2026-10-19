@@ -37,6 +37,39 @@ namespace StudyFlow.Api.Migrations
 
                     b.ToTable("Materias");
                 });
+
+            modelBuilder.Entity("StudyFlow.Api.Models.Tarefa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MateriaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MateriaId");
+
+                    b.ToTable("Tarefas");
+                });
+
+            modelBuilder.Entity("StudyFlow.Api.Models.Tarefa", b =>
+                {
+                    b.HasOne("StudyFlow.Api.Models.Materia", "Materia")
+                        .WithMany()
+                        .HasForeignKey("MateriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Materia");
+                });
 #pragma warning restore 612, 618
         }
     }
