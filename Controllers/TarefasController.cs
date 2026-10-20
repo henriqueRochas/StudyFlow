@@ -36,6 +36,14 @@ namespace StudyFlow.Api.Controllers
             return tarefa;
         }
 
+        [HttpGet("materia/{materiaId}")] // Esse endpoint faz com que a busca seja feita com base no id da materia
+        public IEnumerable<Tarefa> PegarTarefasPorMateria(int materiaId)
+        {
+            var tarefas = _tarefaService.PegarPorMateriaId(materiaId);
+
+            return tarefas;
+        }
+
         [HttpPost]
         public ActionResult<Tarefa> AdicionarTarefas(CriarTarefaDto dto)
         {

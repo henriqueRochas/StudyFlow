@@ -46,6 +46,9 @@ namespace StudyFlow.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Concluida")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MateriaId")
                         .HasColumnType("int");
 

@@ -2,6 +2,7 @@
 using StudyFlow.Api.Dtos;
 using StudyFlow.Api.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace StudyFlow.Api.Services
 {
@@ -16,12 +17,12 @@ namespace StudyFlow.Api.Services
 
         public List<Tarefa> PegarTodas()
         {
-            return _context.Tarefas.ToList();
+            return _context.Tarefas.Include(t => t.Materia).ToList();
         }
 
         public Tarefa? PegarPorId(int id)
         {
-            return _context.Tarefas.Find(id);
+            return _context.Tarefas.Include(t => t.Materia).FirstOrDefault(t => t.Id == id);
         }
 
         public Tarefa? Adicionar(CriarTarefaDto dto)
@@ -49,7 +50,7 @@ namespace StudyFlow.Api.Services
 
         public Tarefa? Atualizar(int id, CriarTarefaDto dto)
         {
-            var tarefa = _context.Tarefas.Find(id);
+            var tarefa = _context.Tarefas.Include(t => t.Materia).FirstOrDefault(t => t.Id == id);
             var materia = _context.Materias.Find(dto.MateriaId);
 
             if (tarefa is null)
@@ -63,11 +64,11 @@ namespace StudyFlow.Api.Services
             }
 
             tarefa.MateriaId = dto.MateriaId;
+            tarefa.Materia = materia;
             tarefa.Titulo = dto.Titulo.Trim();
             _context.SaveChanges();
 
             return tarefa;
-
         }
 
         public Tarefa? Deletar(int id)
@@ -83,6 +84,14 @@ namespace StudyFlow.Api.Services
             _context.SaveChanges();
 
             return tarefa;
+        }
+
+        public List<Tarefa> PegarPorMateriaId(int materiaId)
+        {
+           return _context.Tarefas
+                .Where(x => x.MateriaId == materiaId)
+                .Include(t => t.Materia)
+                .ToList();
         }
     }
 }
