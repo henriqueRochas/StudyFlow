@@ -86,10 +86,59 @@ namespace StudyFlow.Api.Services
             return tarefa;
         }
 
-        public List<Tarefa> PegarPorMateriaId(int materiaId)
+        public List<Tarefa>? PegarPorMateriaId(int materiaId)
         {
+            var materia = _context.Materias.Find(materiaId);
+
+            if(materia is null)
+            {
+                return null;
+            }
+
            return _context.Tarefas
                 .Where(x => x.MateriaId == materiaId)
+                .Include(t => t.Materia)
+                .ToList();
+        }
+
+        public Tarefa? Concluir(int id)
+        {
+            var tarefa = _context.Tarefas.Find(id);
+
+            if(tarefa is null)
+            {
+                return null;
+            }
+
+            tarefa.Concluida = true;
+
+            _context.SaveChanges();
+
+            return tarefa;
+        }
+
+        public Tarefa? Reabrir(int id)
+        {
+            var tarefa = _context.Tarefas.Find(id);
+
+            if (tarefa is null)
+            {
+                return null;
+            }
+
+            tarefa.Concluida = false;
+
+            _context.SaveChanges();
+
+
+            return tarefa;
+
+        }
+
+        public List<Tarefa> PegarPorConclusao(bool status)
+        {
+            return _context.Tarefas
+                .Where(t => t.Concluida == status)
                 .Include(t => t.Materia)
                 .ToList();
         }

@@ -35,13 +35,26 @@ namespace StudyFlow.Api.Controllers
 
             return tarefa;
         }
-
+        
         [HttpGet("materia/{materiaId}")] // Esse endpoint faz com que a busca seja feita com base no id da materia
-        public IEnumerable<Tarefa> PegarTarefasPorMateria(int materiaId)
+        public ActionResult<IEnumerable<Tarefa>> PegarTarefasPorMateria(int materiaId)
         {
             var tarefas = _tarefaService.PegarPorMateriaId(materiaId);
 
+            if(tarefas is null)
+            {
+                return NotFound();
+            }
+
             return tarefas;
+            
+        }
+
+        [HttpGet("status/{status}")]
+        public IEnumerable<Tarefa> PegarTarefaPorStatus(bool status)
+        {
+            var tarefa = _tarefaService.PegarPorConclusao(status);
+            return tarefa;
         }
 
         [HttpPost]
@@ -77,6 +90,32 @@ namespace StudyFlow.Api.Controllers
             var tarefa = _tarefaService.Deletar(id);
 
             if(tarefa is null)
+            {
+                return NotFound();
+            }
+
+            return tarefa;
+        }
+
+        [HttpPatch("{id}/concluir")]
+        public ActionResult<Tarefa> ConcluirTarefa(int id)
+        {
+            var tarefa = _tarefaService.Concluir(id);
+
+            if(tarefa is null)
+            {
+                return NotFound();
+            }
+
+            return tarefa;
+        }
+
+        [HttpPatch("{id}/reabrir")]
+        public ActionResult<Tarefa> ReabrirTarefa(int id)
+        {
+            var tarefa = _tarefaService.Reabrir(id);
+
+            if (tarefa is null)
             {
                 return NotFound();
             }
