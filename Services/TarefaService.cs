@@ -3,6 +3,7 @@ using StudyFlow.Api.Dtos;
 using StudyFlow.Api.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace StudyFlow.Api.Services
 {
@@ -29,6 +30,7 @@ namespace StudyFlow.Api.Services
         {
             var titulo = dto.Titulo.Trim();
             var materia = _context.Materias.Find(dto.MateriaId);
+            DateOnly? dataVencimento = dto.DataVencimentoTarefa;
 
             if(materia is null)
             {
@@ -39,6 +41,7 @@ namespace StudyFlow.Api.Services
             {
                 Titulo = titulo,
                 MateriaId = dto.MateriaId,
+                DataVencimentoTarefa = dataVencimento,
             };
 
 
@@ -66,6 +69,7 @@ namespace StudyFlow.Api.Services
             tarefa.MateriaId = dto.MateriaId;
             tarefa.Materia = materia;
             tarefa.Titulo = dto.Titulo.Trim();
+            tarefa.DataVencimentoTarefa = dto.DataVencimentoTarefa;
             _context.SaveChanges();
 
             return tarefa;
@@ -140,6 +144,16 @@ namespace StudyFlow.Api.Services
             return _context.Tarefas
                 .Where(t => t.Concluida == status)
                 .Include(t => t.Materia)
+                .ToList();
+        }
+
+        public List<Tarefa> PegarAtrasadas()
+        {
+            var hoje = DateOnly.FromDateTime(DateTime.Today);
+
+            return _context.Tarefas
+                .Where(x => x.DataVencimentoTarefa.HasValue && x.DataVencimentoTarefa.Value < hoje && x.Concluida == false)
+                .Include(x => x.Materia)
                 .ToList();
         }
     }

@@ -51,9 +51,16 @@ namespace StudyFlow.Api.Controllers
         }
 
         [HttpGet("status/{status}")]
-        public IEnumerable<Tarefa> PegarTarefaPorStatus(bool status)
+        public IEnumerable<Tarefa> PegarTarefasPorStatus(bool status)
         {
             var tarefa = _tarefaService.PegarPorConclusao(status);
+            return tarefa;
+        }
+        [HttpGet("atrasadas")]
+        public IEnumerable<Tarefa> PegarTarefasAtrasadas()
+        {
+            var tarefa = _tarefaService.PegarAtrasadas();
+
             return tarefa;
         }
 

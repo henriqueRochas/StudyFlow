@@ -9,6 +9,7 @@ namespace StudyFlow.Api.Dtos
         [NomeMateria]
         public string Titulo { get; set; } = string.Empty;
         public int MateriaId { get; set; }
+        public DateOnly? DataVencimentoTarefa { get; set; }
 
 
     }
