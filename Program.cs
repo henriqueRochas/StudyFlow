@@ -13,6 +13,7 @@ builder.Services.AddDbContext<StudyFlowContext>(options =>
 
 builder.Services.AddScoped<MateriaService>();
 builder.Services.AddScoped<TarefaService>();
+builder.Services.AddScoped<SessaoEstudoService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

@@ -12,5 +12,6 @@ public class StudyFlowContext : DbContext
 
     public DbSet<Materia> Materias { get; set; }
     public DbSet<Tarefa> Tarefas { get; set; }
+    public DbSet<SessaoEstudo> SessaoEstudos { get; set; }
 }
 
