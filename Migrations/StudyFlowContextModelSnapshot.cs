@@ -39,6 +39,30 @@ namespace StudyFlow.Api.Migrations
                     b.ToTable("Materias");
                 });
 
+            modelBuilder.Entity("StudyFlow.Api.Models.SessaoEstudo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DuracaoMinutos")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MateriaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MateriaId");
+
+                    b.ToTable("SessaoEstudos");
+                });
+
             modelBuilder.Entity("StudyFlow.Api.Models.Tarefa", b =>
                 {
                     b.Property<int>("Id")
@@ -65,6 +89,17 @@ namespace StudyFlow.Api.Migrations
                     b.HasIndex("MateriaId");
 
                     b.ToTable("Tarefas");
+                });
+
+            modelBuilder.Entity("StudyFlow.Api.Models.SessaoEstudo", b =>
+                {
+                    b.HasOne("StudyFlow.Api.Models.Materia", "Materia")
+                        .WithMany()
+                        .HasForeignKey("MateriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Materia");
                 });
 
             modelBuilder.Entity("StudyFlow.Api.Models.Tarefa", b =>
