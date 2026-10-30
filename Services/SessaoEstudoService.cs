@@ -99,5 +99,28 @@ namespace StudyFlow.Api.Services
                 .Where(x => x.MateriaId == materiaId)
                 .Sum(x => x.DuracaoMinutos);
         }
+
+        public ResumoProgressoMateriaDto? PegarResumoProgressoPorMateria (int materiaId)
+        {
+            var materia = _context.Materias.Find(materiaId);
+
+            if(materia is null)
+            {
+                return null;
+            }
+
+            var contandoSessoes = _context.SessaoEstudos.Where(x => x.MateriaId == materiaId).Count();
+            var totalMinutos = _context.SessaoEstudos.Where(x => x.MateriaId == materiaId).Sum(x => x.DuracaoMinutos);
+
+            var resumoProgresso = new ResumoProgressoMateriaDto
+            {
+                MateriaId = materiaId,
+                NomeMateria = materia.Nome,
+                TotalSessoes = contandoSessoes,
+                TotalMinutos = totalMinutos,
+            };
+
+            return resumoProgresso;
+        }
     }
 }
