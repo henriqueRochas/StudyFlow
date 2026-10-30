@@ -49,6 +49,19 @@ namespace StudyFlow.Api.Controllers
             return sessaoEstudos;
         }
 
+        [HttpGet("materia/{materiaid}/resumo-progresso")]
+        public ActionResult<ResumoProgressoMateriaDto?> PegarResumoProgressoPorMateria(int materiaid)
+        {
+            var resumoMateria = _sessaoEstudoService.PegarResumoProgressoPorMateria(materiaid);
+
+            if(resumoMateria is null)
+            {
+                return NotFound();
+            }
+
+            return resumoMateria;
+        }
+
         [HttpPost]
         public ActionResult<SessaoEstudo> AdicionarSessaoEstudo(CriarSessaoEstudoDto dto)
         {
