@@ -232,13 +232,13 @@
           <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
         </defs>
       </svg>
-      <h1>Hello, {{ title() }}</h1>
+      <h1>Bem vindo, {{ title() }}</h1>
       <p>Congratulations! Your app is running. 🎉</p>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">
       <div class="pill-group">
-        @for (item of [
+        <!--@for (item of [
           { title: 'Explore the Docs', link: 'https://angular.dev' },
           { title: 'Learn with Tutorials', link: 'https://angular.dev/tutorials' },
           { title: 'Prompt and best practices for AI', link: 'https://angular.dev/ai/develop-with-ai'},
@@ -265,6 +265,13 @@
               />
             </svg>
           </a>
+        }-->
+
+        <!-- O For é como se fosse um ForEach ele inicia uma repetição -->
+        <!-- MATERIA OF MATERIA PERCORRE O ARRAY MATERIAS-->
+        <!-- TRACK MATERIA AJUDAR O ANGULAR A IDENTIFICAR CADA ITEM-->
+        @for (materia of materias; track materia.id){
+        <p>Matéria: {{ materia.nome }} Id:{{ materia.id }}</p> <!--EXIBE O VALOR DO ITEM ATUAL-->
         }
       </div>
       <div class="social-links">
