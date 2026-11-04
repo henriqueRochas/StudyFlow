@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Materia } from './models/materia';
+import { MateriaService } from './services/materia';
+
 
 @Component({
   selector: 'app-root',
@@ -9,15 +11,30 @@ import { Materia } from './models/materia';
   styleUrl: './app.css'
 })
 
-export class App {
+//OnInir É UMA INTERFACE DO PROPRIO ANGULAR
+export class App implements OnInit{
   protected readonly title = signal('StudyFlow');
 
-  materias: Materia[] = [
-    { id: 1, nome: 'C# Avançado'},
-    { id: 2, nome: 'C# Intermediario' },
-    { id: 3, nome: 'C# Basico' },
-  ];
+  private materiaService = inject(MateriaService);
 
+  //O signal É UM FUNÇÃO QUE DEIXA O ESTADO REATIVO E ATUALIZADO
+  materias = signal<Materia[]>([]);
+
+  //SUBSCRIBE: INICIA A REQUISIÇÃO
+  //É EXECUTADO QUANDO A API RESPONDE COM SUCESSO
+  //MATERIA RECEBE OS DADOS
+  //THIS.MATERIAS = MATERIAS: ATRIBUI A RESPOSTA DA API NA PROPRIEDADE MATERIA
+  //ERROR TRATA A FALHA DA REQUISIÇÃO CASO OCORRA
+  ngOnInit(): void{
+    this.materiaService.PegarTodas().subscribe({
+      next: (materias) => {
+        this.materias.set(materias);
+      },
+      error: (erro) => {
+        console.error(erro);
+      }
+    });
+  }
 }
 
 

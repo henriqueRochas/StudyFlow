@@ -270,7 +270,7 @@
         <!-- O For é como se fosse um ForEach ele inicia uma repetição -->
         <!-- MATERIA OF MATERIA PERCORRE O ARRAY MATERIAS-->
         <!-- TRACK MATERIA AJUDAR O ANGULAR A IDENTIFICAR CADA ITEM-->
-        @for (materia of materias; track materia.id){
+        @for (materia of materias(); track materia.id){
         <p>Matéria: {{ materia.nome }} Id:{{ materia.id }}</p> <!--EXIBE O VALOR DO ITEM ATUAL-->
         }
       </div>
