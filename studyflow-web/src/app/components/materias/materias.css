@@ -1,0 +1,26 @@
+.materias-section {
+}
+
+.section-title {
+  margin-bottom: 20px;
+}
+
+.materias-list {
+  list-style: none; /* CONTROLA/REMOVE OS MARCADORES DAS LISTAS */
+  padding: 0;
+  margin: 0;
+}
+
+.materia-item {
+  margin-bottom: 12px;
+  background-color: #191a93;
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex; /* ORGANIZA O POSICIONAMENTO DOS ELEMENTOS FILHOS DE UM ELEMENTO PAI */
+  justify-content: space-between; /* justify-content CONTROLA OS ELEMENTOS FILHOS COM BASE NO EIXO PRINCIPAL(HORIZONTAL OU VERTICAL) */
+  flex-direction: column; /* DEFINE O EIXO PRINCIPAM(ROW OU COLUMN) */
+  align-items: center; /* CONTROLAR O POSICIONAMENTO TRANSVESAL DO EIXO PRINCIPAL */
+}

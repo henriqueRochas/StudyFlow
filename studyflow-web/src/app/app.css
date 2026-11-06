@@ -1,45 +1,16 @@
-.app-header{
-    background-color: #0d9494;
-    color: white;
-    padding: 24px;/* INSERE ESPAÇAMENTO INTERNO */
-    margin-bottom: 24px;/* INSERE MARGEM EXTERNA INFERIOR */
-    text-align: center; /* ALINHA SOMENTE O TEXTO */
+.app-header {
+  background-color: #0d9494;
+  color: white;
+  padding: 24px; /* INSERE ESPAÇAMENTO INTERNO */
+  margin-bottom: 24px; /* INSERE MARGEM EXTERNA INFERIOR */
+  text-align: center; /* ALINHA SOMENTE O TEXTO */
 }
 
-.app-title{
-    font-size: 32px;
+.app-title {
+  font-size: 32px;
 }
 
-.app-container{
-    max-width: 900px; /* DEFINE A LARGURA MAXIMA DE UM ELEMENTO OU SEJA ELE FUNCIONA COMO UM LIMITADOR */
-    margin: 0 auto; /* 0 = MARGEM SUPERIO IGUAL A ZERO E auto = NAVEGADOR DISTRUBUI AUTOMATICAMENTE O ESPAÇO NA HORIZONTAL */
-
-}
-
-.materias-section{
-
-}
-
-.section-title{
-    margin-bottom: 20px;
-}
-
-.materias-list{
-    list-style: none; /* CONTROLA/REMOVE OS MARCADORES DAS LISTAS */
-    padding: 0;
-    margin: 0;
-}
-
-.materia-item{
-    margin-bottom: 12px;
-    background-color: #191a93;
-    color: white;
-    padding: 16px;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: 600;
-    display: flex; /* ORGANIZA O POSICIONAMENTO DOS ELEMENTOS FILHOS DE UM ELEMENTO PAI */
-    justify-content: space-between; /* justify-content CONTROLA OS ELEMENTOS FILHOS COM BASE NO EIXO PRINCIPAL(HORIZONTAL OU VERTICAL) */
-    flex-direction: column; /* DEFINE O EIXO PRINCIPAM(ROW OU COLUMN) */
-    align-items: center; /* CONTROLAR O POSICIONAMENTO TRANSVESAL DO EIXO PRINCIPAL */
+.app-container {
+  max-width: 900px; /* DEFINE A LARGURA MAXIMA DE UM ELEMENTO OU SEJA ELE FUNCIONA COMO UM LIMITADOR */
+  margin: 0 auto; /* 0 = MARGEM SUPERIO IGUAL A ZERO E auto = NAVEGADOR DISTRUBUI AUTOMATICAMENTE O ESPAÇO NA HORIZONTAL */
 }
