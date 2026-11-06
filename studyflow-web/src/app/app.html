@@ -2,17 +2,7 @@
   <h1 class="app-title">Study Flow</h1>
   <p>Organize seus estudos. Acompanhe sua evolução.</p>
 </header>
-<main class="app-container">
-  <section class="materias-section">
-    <h2 class="section-title">Minhas matérias</h2>
-    <ul class="materias-list">
-      @for (materia of materias(); track materia.id){
-      <li class="materia-item">
-        <span>Matéria: {{ materia.nome }}</span><!--EXIBE O VALOR DO ITEM ATUAL-->
-        <span>ID: {{ materia.id }}</span>
-      </li> 
-      }
-    </ul>
-  </section>
-</main>
 
+<main class="app-container">
+  <app-materias />
+</main>
