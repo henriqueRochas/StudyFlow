@@ -10,16 +10,13 @@
     }
   </ul>
   <form #formularioMateria="ngForm" (ngSubmit)="CadastrarMateria()">
-    <input type="text" name="nomeNovaMateria" [(ngModel)]="nomeNovaMateria" required minlength="3" /><!-- ngModel: SINCRONIZA O TYPESCRIPT COM O CAMPO -->
-    @if(nomeNovaMateria().length == 0)
-    {
+    <input type="text" name="nomeNovaMateria" [(ngModel)]="nomeNovaMateria" required minlength="3" #campoMateria="ngModel" /><!-- ngModel: SINCRONIZA O TYPESCRIPT COM O CAMPO E AGE COMO UM FISCAL DO CAMPO ACOMPANHANDO O SEU ESTADO -->
+    @if(campoMateria.touched && campoMateria.errors?.['required']) { <!--['required']: OBRIGA O CAMPO SER PREENCHIDO-->
       <p>Obrigatório informar o nome da matéria</p>
-    }@else if(nomeNovaMateria().length > 5)
-    {
-      <p>Você digitou: {{ nomeNovaMateria()}}</p> <!-- EXIBE O VALOR DO ITEM ATUAL / o nomeNovaMateria() TEM PARENTESES, POIS ELE É UM SIGNAL -->
-    }@else
-    {
+    }@else if(campoMateria.touched && campoMateria.errors?.['minlength']) { <!--['minlength']: CONTA OS CARACTERES-->
       <p>Nome muito curto, minimo de 3 caracteres</p>
+    }@else if (campoMateria.touched && campoMateria.valid) {
+      <p>Você digitou: {{ nomeNovaMateria() }}</p>
     }
 
     <button type="submit" [disabled]="formularioMateria.invalid">Cadastrar</button>
