@@ -6,10 +6,12 @@
     <li class="materia-item">
       <span>Matéria: {{ materia.nome }}</span> <!-- EXIBE O VALOR DO ITEM ATUAL -->
       <span>ID: {{ materia.id }}</span>
+      <button type="button" (click)="SelecionarMateria(materia)">Editar</button>
+      <button type="button" (click)="DeletarMateria(materia)">Excluir</button>
     </li>
     }
   </ul>
-  <form #formularioMateria="ngForm" (ngSubmit)="CadastrarMateria()">
+  <form #formularioMateria="ngForm" (ngSubmit)="SalvarMateria()">
     <input type="text" name="nomeNovaMateria" [(ngModel)]="nomeNovaMateria" required minlength="3" #campoMateria="ngModel" /><!-- ngModel: SINCRONIZA O TYPESCRIPT COM O CAMPO E AGE COMO UM FISCAL DO CAMPO ACOMPANHANDO O SEU ESTADO -->
 
     @if(campoMateria.touched && campoMateria.errors?.['required']) { <!--['required']: OBRIGA O CAMPO SER PREENCHIDO-->
@@ -20,7 +22,13 @@
       <p>Você digitou: {{ nomeNovaMateria() }}</p>
     }
 
-    <button type="submit" [disabled]="formularioMateria.invalid">Cadastrar</button>
+    <button type="submit" [disabled]="formularioMateria.invalid">
+      @if(materiaSelecionada() !== null){
+          Atualizar
+      } @else {
+          Cadastrar
+      }
+    </button>
   </form>
 
   @if( mensagemCadastro() ){

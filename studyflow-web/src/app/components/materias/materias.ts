@@ -19,6 +19,7 @@ export class Materias  implements OnInit {
   materias = signal<Materia[]>([]);
   nomeNovaMateria = signal<string>("");
   mensagemCadastro = signal<string>("");
+  materiaSelecionada = signal<Materia | null>(null);
 
   //SUBSCRIBE: INICIA A REQUISIÇÃO
   //É EXECUTADO QUANDO A API RESPONDE COM SUCESSO
@@ -62,7 +63,87 @@ export class Materias  implements OnInit {
       }
 
     });
-
   }
+
+  SelecionarMateria(materia: Materia) {
+    this.materiaSelecionada.set(materia);
+    this.nomeNovaMateria.set(materia.nome);
+  }
+
+  AtualizarMateria() {
+    const materiaAtual = this.materiaSelecionada();
+
+    if (materiaAtual === null) {
+      return;
+    }
+
+    const nomeAtualizado = this.nomeNovaMateria().trim();
+
+    if (nomeAtualizado.length < 3) {
+      this.mensagemCadastro.set('Informe pelo menos 3 caracteres');
+      return;
+    }
+
+    this.materiaService.Atualizar(materiaAtual.id, nomeAtualizado).subscribe({
+      next: (materiaAtualizada) => {
+
+        this.materias.update((listaAtual) => {
+
+          return listaAtual.map((materia) => {
+
+            if (materia.id === materiaAtualizada.id) {
+              return materiaAtualizada;
+            }
+
+            return materia;
+          });
+        });
+      },
+
+      error: (erro) => {
+        console.error(erro);
+        this.mensagemCadastro.set('Erro ao Atualizar');
+      }
+    })
+  }
+
+  SalvarMateria(): void {
+    if (this.materiaSelecionada() === null) {
+      this.CadastrarMateria();
+    } else {
+      this.AtualizarMateria();
+    }
+  }
+
+  DeletarMateria(materia: Materia): void {
+
+    this.materiaService.Deletar(materia.id).subscribe({
+
+      next: (materiaExcluida) => {
+
+        this.materias.update((listaAtual) => {
+            return listaAtual.filter((item) => {
+              return item.id !== materiaExcluida.id;
+          });
+        });
+
+        this.mensagemCadastro.set('Matéria removida com sucesso!');
+
+        const selecionada = this.materiaSelecionada();
+
+        if (selecionada !== null && selecionada.id === materiaExcluida.id) {
+          this.materiaSelecionada.set(null);
+          this.nomeNovaMateria.set('');
+        }
+      },
+
+      error: (erro) => {
+        console.error(erro);
+        this.mensagemCadastro.set('Erro ao excluir matéria!');
+      }
+
+    });
+  }
+
  }
 

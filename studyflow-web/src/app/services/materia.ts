@@ -19,7 +19,11 @@ export class MateriaService {
   }
 
   Atualizar(id: number, nome: string): Observable<Materia> {
-    return this.http.put<Materia>('http://localhost:5057/api/materias' + id, { nome: nome });
+    return this.http.put<Materia>('http://localhost:5057/api/materias/' + id, { nome: nome });
+  }
+
+  Deletar(id: number): Observable<Materia> {
+    return this.http.delete<Materia>('http://localhost:5057/api/materias/' + id);
   }
 }
 
