@@ -17,5 +17,9 @@ export class MateriaService {
   Adicionar(nome: string): Observable<Materia> {
     return this.http.post<Materia>('http://localhost:5057/api/materias', {nome: nome});
   }
+
+  Atualizar(id: number, nome: string): Observable<Materia> {
+    return this.http.put<Materia>('http://localhost:5057/api/materias' + id, { nome: nome });
+  }
 }
 

@@ -4,6 +4,7 @@ import { MateriaService } from '../../services/materia';
 import { FormsModule } from '@angular/forms';
 
 
+
 @Component({
   selector: 'app-materias', //IDENTIFICADOR DO COMPONENTE, PERMITE USAR ELE NO HTML COMO SE FOSSE UMA TAG
   imports: [FormsModule], 
@@ -17,6 +18,7 @@ export class Materias  implements OnInit {
   //O signal É UM FUNÇÃO QUE DEIXA O ESTADO REATIVO E ATUALIZADO
   materias = signal<Materia[]>([]);
   nomeNovaMateria = signal<string>("");
+  mensagemCadastro = signal<string>("");
 
   //SUBSCRIBE: INICIA A REQUISIÇÃO
   //É EXECUTADO QUANDO A API RESPONDE COM SUCESSO
@@ -35,8 +37,14 @@ export class Materias  implements OnInit {
   }
 
   CadastrarMateria(): void {
+    const limpandoEspacoEmBranco = this.nomeNovaMateria().trim();
 
-    this.materiaService.Adicionar(this.nomeNovaMateria()).subscribe({
+    if (limpandoEspacoEmBranco.length < 3) {
+      this.mensagemCadastro.set('Informe pelo menos 3 caracteres');
+      return
+    }
+
+    this.materiaService.Adicionar(limpandoEspacoEmBranco).subscribe({
 
       next: (materiaCriada) => {
 
@@ -45,10 +53,12 @@ export class Materias  implements OnInit {
         });
 
         this.nomeNovaMateria.set('');
+        this.mensagemCadastro.set('Cadastrado com sucesso!');
       },
 
       error: (erro) => {
         console.error(erro);
+        this.mensagemCadastro.set('Erro ao cadastrar!');
       }
 
     });

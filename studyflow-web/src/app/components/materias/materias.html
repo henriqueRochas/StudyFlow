@@ -11,6 +11,7 @@
   </ul>
   <form #formularioMateria="ngForm" (ngSubmit)="CadastrarMateria()">
     <input type="text" name="nomeNovaMateria" [(ngModel)]="nomeNovaMateria" required minlength="3" #campoMateria="ngModel" /><!-- ngModel: SINCRONIZA O TYPESCRIPT COM O CAMPO E AGE COMO UM FISCAL DO CAMPO ACOMPANHANDO O SEU ESTADO -->
+
     @if(campoMateria.touched && campoMateria.errors?.['required']) { <!--['required']: OBRIGA O CAMPO SER PREENCHIDO-->
       <p>Obrigatório informar o nome da matéria</p>
     }@else if(campoMateria.touched && campoMateria.errors?.['minlength']) { <!--['minlength']: CONTA OS CARACTERES-->
@@ -21,4 +22,9 @@
 
     <button type="submit" [disabled]="formularioMateria.invalid">Cadastrar</button>
   </form>
+
+  @if( mensagemCadastro() ){
+    <p>{{ mensagemCadastro() }}</p>
+  }
+
 </section>
